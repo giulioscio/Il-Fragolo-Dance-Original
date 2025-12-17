@@ -1,0 +1,126 @@
+:root{
+  --bg:#000;
+  --neon1:#00ffd5;
+  --neon2:#49ff3a;
+  --grid1: rgba(0,255,213,.42);
+  --grid2: rgba(73,255,58,.28);
+  --shadow: 0 16px 40px rgba(0,0,0,.55);
+  --hud: rgba(255,255,255,.92);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;background:var(--bg);color:#fff;overflow:hidden;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+}
+
+.screen{position:fixed; inset:0; display:none; place-items:center; background:#000; user-select:none;}
+.screen.show{display:grid}
+
+.startBg{position:absolute; inset:0; background:#000 url("assets/start_bg.jpg") center/contain no-repeat;}
+.startOverlay{position:absolute; inset:0; background: radial-gradient(circle at 50% 40%, rgba(0,0,0,.05), rgba(0,0,0,.65) 65%, rgba(0,0,0,.92) 100%);}
+.startUI{position:relative; width:min(92vw,520px); display:grid; place-items:center; gap:10px; padding: 18px 14px 22px;}
+
+.pressStart{
+  width:min(92vw,520px); height:64px; border-radius:10px;
+  border:2px solid rgba(255,255,255,.16);
+  background: linear-gradient(180deg, rgba(0,255,213,.20), rgba(0,0,0,.0)),
+              linear-gradient(90deg, rgba(73,255,58,.18), rgba(0,0,0,.0));
+  color: rgba(255,255,255,.92);
+  font-weight:900; letter-spacing:.22em; text-transform:uppercase;
+  box-shadow: var(--shadow);
+}
+.pressStart:active{ transform: translateY(1px) scale(.995); }
+.smallNote{font-size:12px; letter-spacing:.12em; color: rgba(255,255,255,.75);}
+
+.game{position:fixed; inset:0;}
+.hidden{display:none !important;}
+
+.hud{
+  position:fixed; top: env(safe-area-inset-top,0px); left:0; right:0;
+  padding:14px 14px 8px; display:flex; justify-content:space-between;
+  z-index:10; pointer-events:none;
+}
+.hudBox{
+  color:var(--hud); font-weight:900; letter-spacing:.12em; font-size:14px; text-transform:uppercase;
+  text-shadow: 0 0 10px rgba(0,255,213,.22), 0 0 22px rgba(73,255,58,.16);
+}
+.hudBox .k{color: rgba(255,255,255,.72);}
+
+.scene{position:fixed; inset:0 0 92px 0; display:grid; place-items:center;}
+
+.floorWrap{
+  position:absolute; left:-10vw; right:-10vw; bottom:-22vh; height:58vh;
+  transform: perspective(700px) rotateX(62deg); transform-origin: 50% 100%;
+  z-index:1; opacity:.95;
+}
+.floor{
+  position:absolute; inset:0;
+  background:
+    linear-gradient(to right, var(--grid1) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(to bottom, var(--grid1) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(to right, var(--grid2) 1px, transparent 1px) 24px 24px / 48px 48px,
+    linear-gradient(to bottom, var(--grid2) 1px, transparent 1px) 24px 24px / 48px 48px;
+  mask-image: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,.9) 45%, rgba(0,0,0,0) 100%);
+  animation: scrollGrid 1s linear infinite;
+}
+.floorGlow{
+  position:absolute; inset:-6%;
+  background: radial-gradient(circle at 50% 60%, rgba(0,255,213,.20), transparent 55%),
+              radial-gradient(circle at 50% 70%, rgba(73,255,58,.12), transparent 60%);
+  opacity:.85; mix-blend-mode: screen;
+}
+@keyframes scrollGrid{
+  from{ background-position: 0 0, 0 0, 24px 24px, 24px 24px; }
+  to{   background-position: 0 48px, 0 48px, 24px 72px, 24px 72px; }
+}
+
+.sprite{
+  width:min(70vw,360px);
+  aspect-ratio: 2/3;
+  background: url("assets/spin_0.png") center/contain no-repeat;
+  filter: drop-shadow(0 28px 30px rgba(0,0,0,.6));
+  z-index:5;
+  will-change: background-image;
+}
+
+.controls{
+  position:fixed; left:0; right:0;
+  bottom: env(safe-area-inset-bottom,0px);
+  padding:12px 14px 14px;
+  display:grid; place-items:center; z-index:12;
+}
+.spinBtn{
+  width:min(92vw,520px); height:64px; border-radius:10px;
+  border:2px solid rgba(255,255,255,.16);
+  background: linear-gradient(180deg, rgba(0,255,213,.20), rgba(0,0,0,.0)),
+              linear-gradient(90deg, rgba(73,255,58,.18), rgba(0,0,0,.0));
+  color: rgba(255,255,255,.92);
+  font-weight:900; letter-spacing:.22em; text-transform:uppercase;
+  box-shadow: var(--shadow);
+}
+.spinBtn:active{ transform: translateY(1px) scale(.995); }
+
+.end{
+  position:fixed; inset:0; background: rgba(0,0,0,.85);
+  display:grid; place-items:center; z-index:30;
+}
+.endCard{
+  width:min(92vw,520px);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:16px;
+  padding:16px;
+  text-align:center;
+  background: rgba(0,0,0,.6);
+  box-shadow: var(--shadow);
+}
+.endTitle{letter-spacing:.22em; font-weight:900; margin-bottom:10px;}
+.endScoreLine{font-size:20px; font-weight:900; margin-bottom:14px;}
+
+
+/* --- Mobile safety fixes --- */
+#startScreen{z-index:1000;}
+#startScreen:not(.show){display:none !important;}
+#gameScreen{z-index:10;}

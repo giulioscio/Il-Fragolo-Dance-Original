@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover" />
+  <title>Il Fragolone Dance — GiroGiro</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <section id="startScreen" class="screen show" aria-label="Schermata iniziale">
+    <div class="startBg" aria-hidden="true"></div>
+    <div class="startOverlay" aria-hidden="true"></div>
+    <div class="startUI">
+      <button id="startBtn" class="pressStart" type="button">PRESS START</button>
+      <div class="smallNote">Tocca per abilitare l’audio</div>
+    </div>
+  </section>
+
+  <section id="gameScreen" class="game hidden" aria-label="Gioco">
+    <header class="hud">
+      <div class="hudBox left"><span class="k">SCORE</span> <span id="score">0</span></div>
+      <div class="hudBox right"><span class="k">TIME</span> <span id="time">60</span></div>
+    </header>
+
+    <main class="scene">
+      <div class="floorWrap" aria-hidden="true">
+        <div class="floor"></div>
+        <div class="floorGlow"></div>
+      </div>
+      <div id="sprite" class="sprite" role="img" aria-label="Personaggio che gira"></div>
+    </main>
+
+    <footer class="controls">
+      <button id="spinBtn" class="spinBtn" type="button">GIRA</button>
+    </footer>
+
+    <div id="endScreen" class="end hidden" aria-label="Fine partita">
+      <div class="endCard">
+        <div class="endTitle">TEMPO FINITO</div>
+        <div class="endScoreLine">SCORE: <span id="finalScore">0</span></div>
+        <button id="restartBtn" class="pressStart" type="button">RIPROVA</button>
+      </div>
+    </div>
+  </section>
+
+  <audio id="musicStart" preload="auto" loop>
+    <source src="assets/music_start.mp3" type="audio/mpeg" />
+  </audio>
+  <audio id="musicGame" preload="auto" loop>
+    <source src="assets/music_game.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script src="game.js"></script>
+</body>
+</html>
